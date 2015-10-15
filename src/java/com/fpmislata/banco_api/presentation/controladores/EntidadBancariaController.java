@@ -1,7 +1,6 @@
 package com.fpmislata.banco_api.presentation.controladores;
 
 import com.fpmislata.banco_api.presentation.JsonTransformer;
-import com.fpmislata.banco_api.presentation.jackson.JsonTransformerImplJackson;
 import com.fpmislata.banco_service.business.domain.EntidadBancaria;
 import com.fpmislata.banco_service.business.service.EntidadBancariaService;
 import java.io.IOException;
