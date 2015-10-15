@@ -9,7 +9,6 @@
   
     <context:annotation-config/>
   
-    <bean class="FQCN_DE_UNA_CLASE_JAVA_QUE_QUEREMOS_PODER_INYECTAR" />
- 
+    <bean class="com.fpmislata.banco_api.presentation.jackson.JsonTransformerImplJackson" />
  
 </beans>
