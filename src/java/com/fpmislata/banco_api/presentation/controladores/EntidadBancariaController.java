@@ -4,12 +4,12 @@ import com.fpmislata.banco_api.presentation.JsonTransformer;
 import com.fpmislata.banco_service.business.domain.EntidadBancaria;
 import com.fpmislata.banco_service.business.service.EntidadBancariaService;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -50,6 +50,29 @@ public class EntidadBancariaController {
                 httpServletResponse.setContentType("application/json; charset=UTF-8");
                 httpServletResponse.getWriter().println(jsonEntidadBancaria);
             }
+        } catch (Exception ex) {
+            ex.printStackTrace(httpServletResponse.getWriter());
+        }
+    }
+
+    @RequestMapping(value = "/entidadbancaria", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    public void insert(@RequestBody String jsonEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        try {
+            EntidadBancaria entidadBancaria = jsonTransformer.fromJson(jsonEntidadBancaria, EntidadBancaria.class);
+            String jsonEntidadBancariaInsertada = jsonTransformer.toJson(entidadBancariaService.insert(entidadBancaria));
+            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+            httpServletResponse.setContentType("application/json; charset=UTF-8");
+            httpServletResponse.getWriter().println(jsonEntidadBancariaInsertada);
+        } catch (Exception ex) {
+            ex.printStackTrace(httpServletResponse.getWriter());
+        }
+    }
+
+    @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.DELETE, produces = "application/json")
+    public void delete(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        try {
+            entidadBancariaService.delete(idEntidadBancaria);
+            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } catch (Exception ex) {
             ex.printStackTrace(httpServletResponse.getWriter());
         }
