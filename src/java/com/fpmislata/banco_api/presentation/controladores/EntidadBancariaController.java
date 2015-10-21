@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class EntidadBancariaController {
-    
+
     @Autowired
     private EntidadBancariaService entidadBancariaService;
     @Autowired
     private JsonTransformer jsonTransformer;
-    
+
     @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.GET, produces = "application/json")
     public void get(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
             EntidadBancaria entidadBancaria = entidadBancariaService.get(idEntidadBancaria);
-            
+
             if (entidadBancaria == null) {
                 httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
             } else {
@@ -42,7 +42,7 @@ public class EntidadBancariaController {
             ex.printStackTrace(httpServletResponse.getWriter());
         }
     }
-    
+
     @RequestMapping(value = "/entidadbancaria", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     public void insert(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
@@ -55,7 +55,7 @@ public class EntidadBancariaController {
             ex.printStackTrace(httpServletResponse.getWriter());
         }
     }
-    
+
     @RequestMapping(value = "/entidadbancaria", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
     public void update(@RequestBody String jsonEntrada, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
@@ -68,17 +68,20 @@ public class EntidadBancariaController {
             ex.printStackTrace(httpServletResponse.getWriter());
         }
     }
-    
+
     @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.DELETE, produces = "application/json")
     public void delete(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
-            entidadBancariaService.delete(idEntidadBancaria);
-            httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            if (!entidadBancariaService.delete(idEntidadBancaria)) {
+                httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }
         } catch (Exception ex) {
             ex.printStackTrace(httpServletResponse.getWriter());
         }
     }
-    
+
     @RequestMapping(value = "/entidadbancaria", method = RequestMethod.GET, produces = "application/json")
     public void findAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
@@ -95,5 +98,5 @@ public class EntidadBancariaController {
             ex.printStackTrace(httpServletResponse.getWriter());
         }
     }
-    
+
 }
