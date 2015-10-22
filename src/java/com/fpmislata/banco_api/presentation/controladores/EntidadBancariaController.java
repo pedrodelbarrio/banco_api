@@ -69,7 +69,7 @@ public class EntidadBancariaController {
         }
     }
 
-    @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.DELETE, produces = "application/json")
+    @RequestMapping(value = "/entidadbancaria/{idEntidadBancaria}", method = RequestMethod.DELETE)
     public void delete(@PathVariable("idEntidadBancaria") int idEntidadBancaria, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         try {
             if (!entidadBancariaService.delete(idEntidadBancaria)) {
