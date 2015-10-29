@@ -99,4 +99,22 @@ public class EntidadBancariaController {
         }
     }
 
+    @RequestMapping(value = "/entidadbancaria/defaultvalue", method = RequestMethod.GET, produces = "application/json")
+    public void getDefault(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        try {
+            EntidadBancaria entidadBancaria = entidadBancariaService.getDefault();
+
+            if (entidadBancaria == null) {
+                httpServletResponse.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            } else {
+                String jsonEntidadBancaria = jsonTransformer.toJson(entidadBancaria);
+                httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                httpServletResponse.setContentType("application/json; charset=UTF-8");
+                httpServletResponse.getWriter().println(jsonEntidadBancaria);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace(httpServletResponse.getWriter());
+        }
+    }
+
 }
