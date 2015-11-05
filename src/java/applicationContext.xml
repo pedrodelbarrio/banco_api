@@ -10,5 +10,6 @@
     <context:annotation-config/>
   
     <bean class="com.fpmislata.banco_api.presentation.jackson.JsonTransformerImplJackson" />
+    <bean class="com.fpmislata.banco_api.presentation.database.MigrationDBImpl" />
  
 </beans>
