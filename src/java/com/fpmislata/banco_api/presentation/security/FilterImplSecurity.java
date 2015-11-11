@@ -42,7 +42,7 @@ public class FilterImplSecurity implements Filter {
 
         WebSession webSession = webSessionProvider.getWebSession(httpServletRequest, httpServletResponse);
         if (authorization.isAuthorizedURL(webSession.getUsuario(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod())) {
-            
+
         } else {
 
         }

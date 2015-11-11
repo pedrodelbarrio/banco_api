@@ -25,7 +25,6 @@
         <filter-name>FilterImplSecurity</filter-name>
         <filter-class>com.fpmislata.banco_api.presentation.security.FilterImplSecurity</filter-class>
     </filter>
-        
     <filter-mapping>
         <filter-name>FilterImplSecurity</filter-name>
         <url-pattern>/api/*</url-pattern>
