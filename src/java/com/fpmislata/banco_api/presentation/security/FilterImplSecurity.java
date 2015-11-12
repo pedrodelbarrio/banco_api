@@ -1,5 +1,6 @@
 package com.fpmislata.banco_api.presentation.security;
 
+import com.fpmislata.banco_service.business.domain.Usuario;
 import com.fpmislata.banco_service.security.Authorization;
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -28,29 +29,34 @@ public class FilterImplSecurity implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext());
+        AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
+        autowireCapableBeanFactory.autowireBean(this);
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getServletContext());
-        AutowireCapableBeanFactory autowireCapableBeanFactory = webApplicationContext.getAutowireCapableBeanFactory();
-        autowireCapableBeanFactory.autowireBean(this);
-
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
+        Usuario usuario;
+
         WebSession webSession = webSessionProvider.getWebSession(httpServletRequest, httpServletResponse);
-        if (authorization.isAuthorizedURL(webSession.getUsuario(), httpServletRequest.getRequestURI(), httpServletRequest.getMethod())) {
-
+        if (webSession == null) {
+            usuario = null;
         } else {
+            usuario = webSession.getUsuario();
+        }
 
+        if (authorization.isAuthorizedURL(usuario, httpServletRequest.getRequestURI(), httpServletRequest.getMethod())) {
+            chain.doFilter(httpServletRequest, httpServletResponse);
+        } else {
+            httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
     }
 
     @Override
     public void destroy() {
-
     }
 
 }
