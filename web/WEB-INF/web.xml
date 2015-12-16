@@ -17,9 +17,9 @@
         </param-value>
     </context-param>
     
-    <!--<listener>
+    <listener>
         <listener-class>com.fpmislata.banco_api.presentation.database.ServletContextListenerImpl</listener-class>
-    </listener>-->
+    </listener>
     
     <filter>
         <filter-name>FilterImplSecurity</filter-name>
